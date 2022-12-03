@@ -74,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 await _localStorage.setItem('routes',
                     json.encode(myRoutes.map((e) => e.toJson()).toList()));
 
-                _localStorage.deleteItem('routes');
                 isLoading = false;
                 setState(() {});
               },
