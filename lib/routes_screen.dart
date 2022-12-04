@@ -47,15 +47,13 @@ class _RoutesScreenState extends State<RoutesScreen> {
       setState(() {});
     }
     if (list.isNotEmpty) {
-      index = 27;
+      index = 10;
 
       _scrollController.addListener(() {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
-          max = _scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent;
           if (index < list.length) {
-            index = index + 27;
+            index = index + 10;
             setState(() {});
           }
         }
@@ -80,9 +78,6 @@ class _RoutesScreenState extends State<RoutesScreen> {
 
                 for (int i = 0; i < element.installationPoints.length; i++) {
                   installationPoint = element.installationPoints[i];
-                }
-                if (max) {
-                  return CircularProgressIndicator();
                 }
 
                 return Card(
