@@ -39,7 +39,6 @@ class _RoutesScreenState extends State<RoutesScreen> {
       ),
       body: list.isNotEmpty
           ? ListView.builder(
-              reverse: true,
               physics: const BouncingScrollPhysics(),
               itemCount: list.length,
               itemBuilder: (BuildContext context, int index) {
