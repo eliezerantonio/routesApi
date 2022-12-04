@@ -19,6 +19,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
   late final ScrollController _scrollController;
   int index = 0;
   List list = [];
+  bool max = false;
 
   @override
   void initState() {
@@ -31,20 +32,6 @@ class _RoutesScreenState extends State<RoutesScreen> {
 //em cada requisição recebemos muitos resultados
 //se exibir tudo de uma vez teremos uma queda de performance
 //então vamos exibir 50  resultados de cada vez
-
-    if (list.isNotEmpty) {
-      index = 27;
-
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (index < list.length) {
-            index = index + 27;
-            setState(() {});
-          }
-        }
-      });
-    }
   }
 
   @override
@@ -56,7 +43,23 @@ class _RoutesScreenState extends State<RoutesScreen> {
   Future<void> getRoutes() async {
     if (jsonDecode(await _localStorage.getItem('routes')) != null) {
       list = jsonDecode(await _localStorage.getItem('routes'));
+
       setState(() {});
+    }
+    if (list.isNotEmpty) {
+      index = 27;
+
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          max = _scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent;
+          if (index < list.length) {
+            index = index + 27;
+            setState(() {});
+          }
+        }
+      });
     }
   }
 
@@ -70,13 +73,16 @@ class _RoutesScreenState extends State<RoutesScreen> {
           ? ListView.builder(
               controller: _scrollController,
               physics: const BouncingScrollPhysics(),
-              itemCount: list.length,
+              itemCount: index,
               itemBuilder: (BuildContext context, int index) {
                 final RouteElement element = RouteElement.fromJson(list[index]);
                 InstallationPoint? installationPoint;
 
                 for (int i = 0; i < element.installationPoints.length; i++) {
                   installationPoint = element.installationPoints[i];
+                }
+                if (max) {
+                  return CircularProgressIndicator();
                 }
 
                 return Card(
