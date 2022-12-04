@@ -34,8 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final String _url =
       'https://api1.kentratech.com:8443/auth/realms/kforms-test/protocol/openid-connect/auth?client_id=kforms-demo-ui&redirect_uri=http%3A%2F%2F94.130.225.32%3A8089%2Fforms%2Fanswer%2F619d1a520cf11b00123c6b00&state=85ce57a1-9582-45d4-820e-a4e326886ebc&response_mode=fragment&response_type=code&scope=openid&nonce=92fa179d-6dd5-4fcb-8c9c-7aa544200315';
 
-  List _containers = [];
-
   Future<void> _launchUrl() async {
     if (!await launchUrl(Uri.parse(_url))) {
       throw 'Could not launch $_url';
@@ -43,11 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool isLoading = false;
-  @override
-  void initState() {
-    super.initState();
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 await _localStorage.setItem('routes',
                     json.encode(myRoutes.map((e) => e.toJson()).toList()));
-                await _localStorage.deleteItem('routes');
+
                 isLoading = false;
                 setState(() {});
               },
@@ -90,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: const Text('Abrir Url'),
             ),
-            if (isLoading) Center(child: const CircularProgressIndicator())
+            if (isLoading) const Center(child: CircularProgressIndicator())
           ],
         ),
       ),

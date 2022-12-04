@@ -10,7 +10,7 @@ class ContainersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Containers'),
+        title: const Text('Containers'),
       ),
       body: ListView.builder(
         itemCount: containers.length,

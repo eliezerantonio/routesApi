@@ -21,8 +21,13 @@ class _RoutesScreenState extends State<RoutesScreen> {
   @override
   void initState() {
     super.initState();
-    if (jsonDecode(_localStorage.getItem('routes')) != null) {
-      list = jsonDecode(_localStorage.getItem('routes'));
+    getRoutes();
+  }
+
+  Future<void> getRoutes() async {
+    if (jsonDecode(await _localStorage.getItem('routes')) != null) {
+      list = jsonDecode(await _localStorage.getItem('routes'));
+      setState(() {});
     }
   }
 
@@ -30,12 +35,12 @@ class _RoutesScreenState extends State<RoutesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pontos de Instalação'),
+        title: const Text('Pontos de Instalação'),
       ),
       body: list.isNotEmpty
           ? ListView.builder(
               reverse: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemCount: list.length,
               itemBuilder: (BuildContext context, int index) {
                 final RouteElement element = RouteElement.fromJson(list[index]);
@@ -65,15 +70,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
                 );
               },
             )
-          : Center(
+          : const Center(
               child: Text('Sem dados para exibir'),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Text(
-          list.length.toString(),
-        ),
-      ),
     );
   }
 }
