@@ -6,6 +6,7 @@ import 'package:localstorage/localstorage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'api.dart';
+import 'routes_by_id_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -76,6 +77,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(builder: (_) => const RoutesScreen()));
               },
               child: const Text('Ver dados'),
+            ),
+            OutlinedButton(
+              onPressed: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const RoutesByIdScreen()));
+              },
+              child: const Text('Ver dados específicos'),
             ),
             ElevatedButton(
               onPressed: () async {
