@@ -16,12 +16,41 @@ class RoutesScreen extends StatefulWidget {
 class _RoutesScreenState extends State<RoutesScreen> {
   final LocalStorage _localStorage = LocalStorage('same');
 
+  late final ScrollController _scrollController;
+  int index = 0;
   List list = [];
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     getRoutes();
+
+    //criando InfiniteScroll
+
+//em cada requisição recebemos muitos resultados
+//se exibir tudo de uma vez teremos uma queda de performance
+//então vamos exibir 50  resultados de cada vez
+
+    if (list.isNotEmpty) {
+      index = 27;
+
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (index < list.length) {
+            index = index + 27;
+            setState(() {});
+          }
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> getRoutes() async {
@@ -39,7 +68,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
       ),
       body: list.isNotEmpty
           ? ListView.builder(
-              reverse: true,
+              controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               itemCount: list.length,
               itemBuilder: (BuildContext context, int index) {
