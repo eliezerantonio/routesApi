@@ -46,10 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getRoutes();
   }
 
-  void getRoutes() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 await _localStorage.setItem('routes',
                     json.encode(myRoutes.map((e) => e.toJson()).toList()));
-
+                await _localStorage.deleteItem('routes');
                 isLoading = false;
                 setState(() {});
               },
@@ -81,8 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             OutlinedButton(
               onPressed: () async {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const RoutesScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const RoutesScreen()));
               },
               child: const Text('Ver dados'),
             ),
@@ -92,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: const Text('Abrir Url'),
             ),
-            if (isLoading) const LinearProgressIndicator()
+            if (isLoading) Center(child: const CircularProgressIndicator())
           ],
         ),
       ),
