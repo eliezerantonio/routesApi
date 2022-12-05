@@ -88,21 +88,21 @@ class _RoutesByIdScreenState extends State<RoutesByIdScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (_) =>
-                          ContainersScreen(installationPoint!.containers!),
+                          ContainersScreen(installationPoint.containers!),
                     ),
                   );
                 }),
-                title: Text(installationPoint!.typeWaste != null
-                    ? installationPoint!
-                        .getWestType(installationPoint!.typeWaste!)
+                title: Text(installationPoint.typeWaste != null
+                    ? installationPoint
+                        .getWestType(installationPoint.typeWaste!)
                     : ''),
                 leading: Text(
-                    installationPoint!.id == null || installationPoint!.id == ''
+                    installationPoint.id == null || installationPoint.id == ''
                         ? '0'
-                        : installationPoint!.id!),
-                subtitle: Text(installationPoint!.streetLocal != '' &&
-                        installationPoint!.streetLocal != null
-                    ? installationPoint!.streetLocal!
+                        : installationPoint.id!),
+                subtitle: Text(installationPoint.streetLocal != '' &&
+                        installationPoint.streetLocal != null
+                    ? installationPoint.streetLocal!
                     : ''),
               ),
             )
