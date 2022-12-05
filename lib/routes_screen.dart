@@ -26,12 +26,6 @@ class _RoutesScreenState extends State<RoutesScreen> {
     super.initState();
     _scrollController = ScrollController();
     getRoutes();
-
-    //criando InfiniteScroll
-
-//em cada requisição recebemos muitos resultados
-//se exibir tudo de uma vez teremos uma queda de performance
-//então vamos exibir 50  resultados de cada vez
   }
 
   @override
@@ -47,17 +41,25 @@ class _RoutesScreenState extends State<RoutesScreen> {
       setState(() {});
     }
     if (list.isNotEmpty) {
+
       index = 10;
+      //criando InfiniteScroll
+
+      //em cada requisição recebemos muitos resultados
+      //se exibir tudo de uma vez teremos uma queda de performance
+      //então vamos exibir 10  resultados de cada vez
+
 
       _scrollController.addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
+
+        if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
           if (index < list.length) {
             index = index + 10;
             setState(() {});
           }
         }
       });
+
     }
   }
 
@@ -87,22 +89,17 @@ class _RoutesScreenState extends State<RoutesScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => ContainersScreen(
-                                  installationPoint!.containers)));
+                                  installationPoint!.containers!)));
                     }),
-                    title: Text(installationPoint!
-                        .getWestType(installationPoint.typeWaste!)),
-                    leading: Text(installationPoint.id == null ||
-                            installationPoint.id == ''
-                        ? '0'
+                    title: Text(installationPoint!.getWestType(installationPoint.typeWaste!)),
+                    leading: Text(installationPoint.id == null || installationPoint.id == '' ? '0'
                         : installationPoint.id! ?? ''),
                     subtitle: Text(installationPoint.streetLocal!),
                   ),
                 );
               },
             )
-          : const Center(
-              child: Text('Sem dados para exibir'),
-            ),
+          : const Center(child: Text('Sem dados para exibir')),
     );
   }
 }

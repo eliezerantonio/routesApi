@@ -15,11 +15,13 @@ class RoutesByIdScreen extends StatefulWidget {
 
 class _RoutesByIdScreenState extends State<RoutesByIdScreen> {
   final LocalStorage _localStorage = LocalStorage('same');
+  TextEditingController textController = TextEditingController();
 
   late final ScrollController _scrollController;
-  int index = 0;
   List list = [];
   bool max = false;
+  InstallationPoint installationPoint = InstallationPoint();
+  List<RouteElement> elements = [];
 
   @override
   void initState() {
@@ -40,34 +42,73 @@ class _RoutesByIdScreenState extends State<RoutesByIdScreen> {
 
       setState(() {});
     }
-    if (list.isNotEmpty) {
-      //criando InfiniteScroll
-
-//em cada requisição recebemos muitos resultados
-//se exibir tudo de uma vez teremos uma queda de performance
-//então vamos exibir 10  resultados de cada vez
-      index = 10;
-
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          if (index < list.length) {
-            index = index + 10;
-            setState(() {});
-          }
-        }
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Pontos de Instalação'),
+      appBar: AppBar(
+        title: const Text('Pontos de Instalação'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 44,
+              child: TextField(
+                controller: textController,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                for (int i = 0; i < list.length; i++) {
+                  elements.add(RouteElement.fromJson(list[i]));
+                }
+
+                for (var element in elements) {
+                  for (var installationPoints in element.installationPoints
+                      .where((element) => element.id == textController.text)) {
+                    installationPoint = installationPoints;
+                  }
+                }
+
+                setState(() {});
+              },
+              child: const Text('Buscar'),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Card(
+              child: ListTile(
+                onTap: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          ContainersScreen(installationPoint!.containers!),
+                    ),
+                  );
+                }),
+                title: Text(installationPoint!.typeWaste != null
+                    ? installationPoint!
+                        .getWestType(installationPoint!.typeWaste!)
+                    : ''),
+                leading: Text(
+                    installationPoint!.id == null || installationPoint!.id == ''
+                        ? '0'
+                        : installationPoint!.id!),
+                subtitle: Text(installationPoint!.streetLocal != '' &&
+                        installationPoint!.streetLocal != null
+                    ? installationPoint!.streetLocal!
+                    : ''),
+              ),
+            )
+          ],
         ),
-        body: Column(
-          children: [],
-        ));
+      ),
+    );
   }
 }

@@ -66,6 +66,7 @@ class RouteElement {
   bool flgDeleted;
 
   factory RouteElement.fromJson(Map<String, dynamic> json) => RouteElement(
+    
         id: json["ID"],
         routeName: json["RouteName"],
         installationPoints: List<InstallationPoint>.from(
@@ -121,34 +122,34 @@ final flgHighVolumeValues = EnumValues({"f": FlgHighVolume.F});
 
 class InstallationPoint {
   InstallationPoint({
-    required this.id,
-    required this.latitude,
-    required this.longitude,
-    required this.localNumber,
-    required this.mainRouteGuid,
-    required this.orderInRoute,
-    required this.pointType,
-    required this.streetLocal,
-    required this.typeWaste,
-    required this.colorCode,
-    required this.containers,
-    required this.drvObservations,
-    required this.driverObservations,
+    this.id,
+    this.latitude,
+    this.longitude,
+    this.localNumber,
+    this.mainRouteGuid,
+    this.orderInRoute,
+    this.pointType,
+    this.streetLocal,
+    this.typeWaste,
+    this.colorCode,
+    this.containers,
+    this.drvObservations,
+    this.driverObservations,
   });
 
   String? id;
-  String latitude;
-  String longitude;
-  String localNumber;
-  String mainRouteGuid;
-  String orderInRoute;
+  String? latitude;
+  String? longitude;
+  String? localNumber;
+  String? mainRouteGuid;
+  String? orderInRoute;
   PointType? pointType;
   String? streetLocal;
   TypeWaste? typeWaste;
   RouteColorCode? colorCode;
-  List<ContainerModel> containers;
-  String drvObservations;
-  String driverObservations;
+  List<ContainerModel>? containers;
+  String? drvObservations;
+  String? driverObservations;
 
   factory InstallationPoint.fromJson(Map<String, dynamic> json) =>
       InstallationPoint(
@@ -214,7 +215,7 @@ class InstallationPoint {
             typeWaste == null ? null : typeWasteValues.reverse![typeWaste],
         "ColorCode":
             colorCode == null ? null : routeColorCodeValues.reverse![colorCode],
-        "Containers": List<dynamic>.from(containers.map((x) => x.toJson())),
+        "Containers": List<dynamic>.from(containers!.map((x) => x.toJson())),
         "DrvObservations": drvObservations ?? null,
         "driver_observations": driverObservations ?? null,
       };
@@ -230,8 +231,6 @@ enum RouteColorCode {
   E70000,
   FF8_C00
 }
-
-
 
 final routeColorCodeValues = EnumValues({
   "#e70000": RouteColorCode.E70000,
